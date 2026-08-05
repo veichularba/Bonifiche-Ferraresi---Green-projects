@@ -1,26 +1,28 @@
-# Shamblestcg.com
+# Bonifiche Ferraresi Sustainability Report
 
 ## Perchè esiste?
 
 - Esercizio per il portfolio 
-- Utilità alla mia associazione
+- Tesi
+- Approfondimento dello sviluppo frontend con React
 
 ## A chi è destinato?
 
-- Membi dell'associazione Shamblestcg
-- Utenti interessati alle nostre attività
+- Persone interessate ai report di sostenibilità
+- Studenti e ricercatori
+- Stakeholder dell'azienda
+- Visitatori interessati alle iniziative ambientali dell'impresa
 
 ## Cosa deve fare? 
 
-- Sito ufficiale dell'associazione
-- Pubblicizare attività della community
-- In futuro ospiterà la piattaforma per la gestione di tornei e profili utente
+- Presentare le varie attività riguardanti la sostenibilità e permettere di scaricare i report di sostenibilità dell' azienda
+- Offrire una navigazione semplice e intuitiva
 
 ## Filosofia del progetto
 
-- Attenzione alla fruibilità del sito. Poche e utili funzionalità 
-- Design pensato per invitare la community a venire a giocare e sentirsi parte integrante dell'associazione
-- Mobile-first
+- Sito intuitivo
+- Trasmettere visivamente l'impegno dell'azienda verso la sostenibilità
+- Design moderno, pulito e accessibile
   
 ## Status
 
@@ -32,7 +34,7 @@
 - React
 - TypeScript
 - Vite
-- CSS
+- CSS Modules
 
 ### Routing
 - React Router
@@ -42,12 +44,24 @@
 - GitHub
 
 ### Ambiente di sviluppo
+
 - Visual Studio Code
+- Node.js
+- npm
+
+### Linting e qualità del codice
+
+- ESLint
+- Prettier
 
 ### Backend
-- Non previsto nella prima versione.
-- ASP.NET Core nelle versioni future.
+
+- Non previsto
 
 ### Database
-- Non previsto nella prima versione.
-- PostgreSQL nelle versioni future.
+
+- Non previsto
+
+## Note
+
+- Il backend e il database non sono previsti perché non richiesti dal Project Work.
