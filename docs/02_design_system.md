@@ -2,18 +2,20 @@
 
 ## Stile Generale
 
-- Cyberpunk/Metal
+- Moderno
+- Semplice
   
 ## Colori
 
-- Sfondo: Nero
-- Layout: Viola
-- Scritte: Bianco
+- Sfondo: Bianco
+- Layout: Tonalità di verde
+- Scritte: Marrone chiaro
 
 ## Font
 
-- Moderno con richiami allo stile Cyberpunk/Metal
+- Moderno e semplice
 - Sempre facilmente leggibile  
+
 ## Layout
 
 - Minimal 
@@ -26,47 +28,49 @@
 
 ## Hero Section
 
-- Locandina del prossimo evento 
-- Info scritte oltre quelle presenti sulla locandina
-- Pulsanti per registrarsi all'evento
-- Piccole Immagini sotto relative ad altre attività
+- Vetrina Azienda
+- Slogan ad effetto
+- Statistiche raggiunte dall'azienda in ambito sostenibilità
+- Pulsante per scaricare l'ultimo Report di Sostenibilità
 
 ## Card
 
-- Design Cyberpunk/Metal
-- Solo info necessarie e organizzate in modo chiaro
-- Se ci passo il mouse sopra si deve alzare in rilievo
+- Carosello con pulsante per scorrere tra le varie attività
+- Design sobrio
+- Immagine attività
+- Pulsante con il nome dell'attività
+- Apertura di un pannello espandibile con una breve descrizione
+- Statistiche dell'attività
+
 
 ## Bottoni
 
 - Coerenti con il font del sito
 - Rettangoli precisi
-- Scritte bianche
-- Hover luminoso con effetto elettrico
-
-## Icone
-
-- Solo per informazioni che localizzano l'evento (data, ora, luogo)
-- Design Arcade
+- Scritte Marrone chiaro
+- Hover con leggera variazione di colore
+- Ombra morbida
+- Transizione fluida
 
 ## Immagini
 
-- Streaming: foto postazione
-- Tornei irl: Grandangolo della sala
-
-## Footer 
-
-- Loghi vari
-- Contatti
-- Link social
+- Vetrina dell' azienda
+- Immagine relativa ad ogni attività
 
 ## Responsive
 
-- Le immagini secondarie vengono nascoste sui dispositivi piccoli
-- Le informazioni principali rimangono sempre visibili
+- Le card vengono disposte verticalmente
+- Le immagini vengono ridimensionate mantenendo la loro presenza
+- Immagine principale dell' azienda rimane
 
 ## Animazioni
 
 - Le animazioni non devono compromettere le prestazioni del sito
 - Utilizzate solo per elementi interattivi
 
+
+## Icone
+
+- Stile lineare
+- Richiamano natura e sostenibilità
+- Utilizzate per evidenziare dati e attività
