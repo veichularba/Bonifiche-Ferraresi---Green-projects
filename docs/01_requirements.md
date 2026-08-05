@@ -2,47 +2,35 @@
 
 ## Obiettivo del progetto
 
-- Creare un sito web che promuova le attività dell'associazione e faciliti la partecipazione della community. 
+## Obiettivo del progetto
 
-## Obiettivi della Versione 1.0
-
-- Promuovere intuitivamente le varie attività
-- Mostrare il calendario delle attività
-- Mostrare i vari canali social
-- Rendere il sito ottimizzato per dispositivi mobili
+- Creare una pagina web che presenti in modo chiaro e moderno l'impegno dell'azienda verso pratiche produttive sostenibili e consenta il download dei report di sostenibilità.
 
 ## Utenti
 
-- Nuovi giocatori
-- Giocatori abituali 
-- Membri dell'associazione
-- Persone interessate ai contenuti social
+- Persone interessate alle attività dell'azienda e ai suoi report
 
-## Pagine del sito
+## Vincoli del progetto
 
-- Home
-- Tornei
-- Social 
-  
+- Utilizzo di HTML5 e CSS3
+- JavaScript utilizzato solo per funzionalità accessorie
+
 ## Requisiti funzionali
 
-- Visualizzare il prossimo torneo
-- Mostrare i link ai social
-- Mostrare contatti
+- Presentare le attività dell'azienda in ambito sostenibilità
+- Consentire il download dei report di sostenibilità
+- Mostrare una panoramica dell'impegno dell'azienda verso la sostenibilità
+- Rendere facilmente individuabile il collegamento per il download dei report
 
 ## Requisiti non funzionali
 
-- Mobile first 
-- Velocità nei caricamenti
-- Responsive
-
-## Funzionalità future
-
-- Integrazione con CTP
+- Interfaccia intuitiva
+- Layout responsive
+- Tempi di caricamento ridotti
+- Accessibilità dei contenuti
 
 ## Obiettivi dell'utente
 
-- Trovare rapidamente il prossimo torneo
-- Scoprire dove si svolgono gli eventi
-- Seguire Shamblestcg sui social
-- Conoscere l'associazione
+- Visualizzare le principali attività messe in campo dall’azienda in termini di sostenibilità
+- Scaricare facilmente i report di sostenibilità
+
