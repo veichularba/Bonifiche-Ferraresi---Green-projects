@@ -1,10 +1,9 @@
-# Bonifiche Ferraresi Sustainability Report
+# # Bonifiche Ferraresi Sustainability Website
 
 ## Perchè esiste?
 
 - Esercizio per il portfolio 
 - Tesi
-- Approfondimento dello sviluppo frontend con React
 
 ## A chi è destinato?
 
@@ -31,13 +30,9 @@
 ## Stack tecnologico
 
 ### Frontend
-- React
-- TypeScript
-- Vite
-- CSS Modules
-
-### Routing
-- React Router
+- HTML5
+- CSS3
+- JavaScript (ES6)
 
 ### Controllo versione
 - Git
@@ -46,8 +41,6 @@
 ### Ambiente di sviluppo
 
 - Visual Studio Code
-- Node.js
-- npm
 
 ### Linting e qualità del codice
 
