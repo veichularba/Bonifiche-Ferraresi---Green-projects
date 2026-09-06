@@ -2,38 +2,25 @@
 
 ## Hero
 
-- Immagine azienda
-- Logo
-- Statistiche principali
+- Pentagono con bottoni sui vertici per le cinque Priorità Strategiche
+- Frase ad effetto all'interno del pentagono
 
-### Contenuto Principale
+### Bottoni delle Priorità
 
-- Nome Progetto, se presente
-- Immagine Progetto, se presente
-- Breve testo descrittivo
-- Bottone "scopri di più"
-- In alternativa, principali dati di sostenibilità
+- Apertura della card relativa alla Priorità Strategica selezionata
 
-## Carosello Attività
+### Card della Priorità
 
-### Attività
-
-- Immagine Attività
-- Titolo Attività
-- Bottone "scopri di più"
-
-#### Immagine Attività
-
-- Al passaggio del mouse l'immagine si offusca
-- Compare una breve descrizione dell'attività
-
-## Report di Sostenibilità
-
-- Breve introduzione
-- Elenco dei report disponibili
-- Bottone per il download dei report
+- Nome della Priorità Strategica
+- Elenco delle attività
+- Informazioni relative alle attività
+- Target
+- Status
+- SDG associati
+- Pulsante di chiusura
 
 ## Footer
 
-- Logo 
+- Logo
 - Informazioni essenziali
+- Pulsante per il download della Rendicontazione di Sostenibilità completa

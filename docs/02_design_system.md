@@ -20,28 +20,25 @@
 
 - Minimal 
 - Risalto ai contenuti principali
-  
-## Barra di Navigazione
-
-- Desktop: Barra a Sinistra
-- Mobile: Tendina a scomparsa
 
 ## Hero Section
 
-- Vetrina Azienda
-- Slogan ad effetto
-- Statistiche raggiunte dall'azienda in ambito sostenibilità
-- Pulsante per scaricare l'ultimo Report di Sostenibilità
+- Pentagono con le cinque Priorità Strategiche ai vertici
+- Frase ad effetto al centro del pentagono
+- Il pentagono costituisce l'elemento principale di navigazione
+- Al passaggio del mouse o al click su una Priorità Strategica compare la relativa card
 
 ## Card
 
-- Carosello con pulsante per scorrere tra le varie attività
-- Design sobrio
-- Immagine attività
-- Pulsante con il nome dell'attività
-- Apertura di un pannello espandibile con una breve descrizione
-- Statistiche dell'attività
-
+- Card di grandi dimensioni sovrapposta alla Hero
+- Sfondo della Hero sfocato durante la visualizzazione
+- Nome della Priorità Strategica
+- Elenco delle attività associate
+- Informazioni principali relative a ciascuna attività
+- Target
+- Status
+- SDG associati
+- Possibilità di chiudere la card e tornare al pentagono
 
 ## Bottoni
 
@@ -52,16 +49,13 @@
 - Ombra morbida
 - Transizione fluida
 
-## Immagini
-
-- Vetrina dell' azienda
-- Immagine relativa ad ogni attività
-
 ## Responsive
 
-- Le card vengono disposte verticalmente
-- Le immagini vengono ridimensionate mantenendo la loro presenza
-- Immagine principale dell' azienda rimane
+- La frase ad effetto viene posizionata sopra il pentagono
+- Il pentagono viene adattato alle dimensioni dello schermo
+- Al tocco di un vertice compare la relativa card
+- La card viene adattata alla visualizzazione verticale
+- Pulsante per chiudere la card e tornare al pentagono
 
 ## Animazioni
 
@@ -71,6 +65,6 @@
 
 ## Icone
 
-- Stile lineare
-- Richiamano natura e sostenibilità
-- Utilizzate per evidenziare dati e attività
+- Simbolo rappresentativo per ogni Priorità Strategica
+- Simboli coerenti con lo stile generale del sito
+- Simboli semplici e immediatamente riconoscibili
