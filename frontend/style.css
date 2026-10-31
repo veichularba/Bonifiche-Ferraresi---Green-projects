@@ -1,0 +1,18 @@
+body {
+    background-color: #ffffff;
+    color: #665544;
+    font-family: Arial, sans-serif;
+    margin:0;
+}
+
+h1 {
+    color: #2e6b3e;
+    font-size: 48px;
+    text-align: center;
+}
+
+.slogan {
+    color: #806b55;
+    font-size: 20px;
+    text-align: center;
+}
