@@ -1,3 +1,4 @@
+/* colore e font */
 body {
     background-color: #ffffff;
     color: #665544;
@@ -17,6 +18,9 @@ h1 {
     text-align: center;
 }
 
+
+
+/* Gestione della visibilità delle card e delle attività tramite JavaScript */
 .card {
     display: none;
 }
@@ -33,6 +37,8 @@ h1 {
     display: block;
 }
 
+
+
 .pagina-dettagli {
     background-color: #000000;
     color: #ffffff;
@@ -42,6 +48,9 @@ button {
     font-family: inherit;
 }
 
+
+
+/* Stile della homepage */
 .homepage {
     background-image: url("images/Irrigatore Pivot tra i Campi Verdi.png");
     background-size: cover;
@@ -50,6 +59,9 @@ button {
     min-height: 100vh;
 }
 
+
+
+/* Stile del titolo e slogan */
 .overlay-titolo {
     position: relative;
     background-color: transparent;
@@ -62,6 +74,7 @@ button {
     isolation: isolate;
 }
 
+/* Pseudo-elementi per creare l'effetto di sovrapposizione con clip-path */
 .overlay-titolo::before {
     content: "";
     position: absolute;
@@ -71,6 +84,7 @@ button {
     z-index: -1;
 }
 
+/* Pseudo-elementi per creare l'effetto di sfocatura con clip-path */
 .overlay-titolo::after {
     content: "";
     position: absolute;
@@ -88,4 +102,121 @@ button {
 
 .overlay-titolo .slogan {
     margin: 0;
+}
+
+
+
+/* Stile del pentagono e dei pulsanti */
+.pentagono {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    margin: 60px auto;
+}
+
+
+
+/* Aspetto e posizionamento dei cinque pulsanti circolari */
+.pentagono button {
+    position: absolute;
+    transform: translate(-50%, -50%);
+
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+
+    background-color: #2e6b3e;
+    border: 2px solid white;
+    color: white;
+    cursor: pointer;
+}
+
+/* Posizionamento della scritta curva intorno al pulsante */
+.testo-curvo {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow: visible;
+    pointer-events: none;
+}
+
+/* Scritta sul vertice destro */
+#btn-biodiversita .testo-curvo {
+    transform: translate(-50%, -50%) rotate(70deg);
+}
+
+/* Scritta sul vertice inferiore destro */
+#btn-tracciabilità .testo-curvo {
+    transform: translate(-50%, -50%) rotate(140deg);
+}
+
+/* Scritta sul vertice inferiore sinistro */
+#btn-capitaleumano .testo-curvo {
+    transform: translate(-50%, -50%) rotate(220deg);
+}
+
+/* Scritta sul vertice sinistro */
+#btn-comunitàterritorio .testo-curvo {
+    transform: translate(-50%, -50%) rotate(-70deg);
+}
+
+/* Vertice superiore */
+#btn-sostenibilitàambientale {
+    top: 0%;
+    left: 50%;
+} 
+
+#btn-capitaleumano .testo-curvo text,
+#btn-tracciabilità .testo-curvo text {
+    letter-spacing: 2px;
+}
+
+
+/* Colore, dimensione e spessore della scritta curva */
+.testo-curvo text {
+    fill: #2e6b3e;
+    font-family: "Inter", sans-serif;
+    font-size: 25px;
+    font-weight: 700;
+}
+
+
+
+/* Vertice destro */
+#btn-biodiversita {
+    top: 36.33%;
+    left: 100%;
+}
+
+/* Vertice inferiore destro */
+#btn-tracciabilità {
+    top: 95.1%;
+    left: 80.9%;
+}
+
+/* Vertice inferiore sinistro */
+#btn-capitaleumano {
+    top: 95.1%;
+    left: 19.1%;
+}
+
+/* Vertice sinistro */
+#btn-comunitàterritorio {
+    top: 36.33%;
+    left: 0%;
+}
+
+
+
+/* Stile del pentagono SVG */
+.forma-pentagono {
+    width: 100%;
+    height: 100%;
+    fill: rgba(255, 255, 255, 0.75);
+    stroke: #2e6b3e;
+    stroke-width: 3;
+    pointer-events: none;
 }
