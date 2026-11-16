@@ -112,6 +112,7 @@ button {
     width: 400px;
     height: 400px;
     margin: 60px auto;
+    
 }
 
 
@@ -129,6 +130,9 @@ button {
     border: 2px solid white;
     color: white;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Posizionamento della scritta curva intorno al pulsante */
@@ -219,4 +223,14 @@ button {
     stroke: #2e6b3e;
     stroke-width: 3;
     pointer-events: none;
+}
+
+
+
+/* Stile delle icone dei pulsanti */
+.icona-bottone {
+    width: 32px;
+    height: 32px;
+    color: white;
+    stroke-width: 2;
 }
