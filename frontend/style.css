@@ -1,236 +1,947 @@
 /* colore e font */
 body {
-    background-color: #ffffff;
-    color: #665544;
-    font-family: "Inter", sans-serif;
-    margin:0;
+  background-color: #ffffff;
+  color: #665544;
+  font-family: "Inter", sans-serif;
+  margin: 0;
 }
 
 h1 {
-    color: #2e6b3e;
-    font-size: 48px;
-    text-align: center;
+  color: #2e6b3e;
+  font-size: 48px;
+  text-align: center;
 }
 
 .slogan {
-    color: #9b5811;
-    font-size: 20px;
-    text-align: center;
+  color: #9b5811;
+  font-size: 20px;
+  text-align: center;
 }
-
-
 
 /* Gestione della visibilità delle card e delle attività tramite JavaScript */
 .card {
-    display: none;
+  display: none;
 }
 
 .card.visibile {
-    display: block;
+  display: block;
 }
 
 .contenuto-attivita {
-    display: none;
+  display: none;
 }
 
 .contenuto-attivita.visibile {
-    display: block;
+  display: block;
 }
 
-
-
 .pagina-dettagli {
-    background-color: #000000;
-    color: #ffffff;
+  background-color: #000000;
+  color: #ffffff;
 }
 
 button {
-    font-family: inherit;
+  font-family: inherit;
 }
-
-
 
 /* Stile della homepage */
 .homepage {
-    background-image: url("images/Irrigatore Pivot tra i Campi Verdi.png");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    min-height: 100vh;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url("images/Irrigatore Pivot tra i Campi Verdi.png");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
 }
-
-
 
 /* Stile del titolo e slogan */
 .overlay-titolo {
-    position: relative;
-    background-color: transparent;
-    width: 70%;
-    max-width: 800px;
-    margin: 40px 0;
-    padding: 25px;
-    box-sizing: border-box;
-    text-align: center;
-    isolation: isolate;
+  position: relative;
+  background-color: transparent;
+  width: 70%;
+  max-width: 800px;
+  margin: 40px 0;
+  padding: 25px;
+  box-sizing: border-box;
+  text-align: center;
+  isolation: isolate;
 }
 
 /* Pseudo-elementi per creare l'effetto di sovrapposizione con clip-path */
 .overlay-titolo::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-color: rgba(255, 255, 255, 0.85);
-    clip-path: polygon(0 0, 100% 0, 90% 100%, 0 100%);
-    z-index: -1;
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(255, 255, 255, 0.85);
+  clip-path: polygon(0 0, 100% 0, 90% 100%, 0 100%);
+  z-index: -1;
 }
 
 /* Pseudo-elementi per creare l'effetto di sfocatura con clip-path */
 .overlay-titolo::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.35);
-    clip-path: polygon(0 0, 100% 0, 90% 100%, 0 100%);
-    transform: translate(8px, 10px);
-    filter: blur(10px);
-    z-index: -2;
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.35);
+  clip-path: polygon(0 0, 100% 0, 90% 100%, 0 100%);
+  transform: translate(8px, 10px);
+  filter: blur(10px);
+  z-index: -2;
 }
 
 .overlay-titolo h1 {
-    margin: 0 0 12px;
+  margin: 0 0 12px;
 }
 
 .overlay-titolo .slogan {
-    margin: 0;
+  margin: 0;
 }
-
-
 
 /* Stile del pentagono e dei pulsanti */
 .pentagono {
-    position: relative;
-    width: 400px;
-    height: 400px;
-    margin: 60px auto;
-    
+  position: relative;
+  width: 400px;
+  height: 400px;
+  margin: 60px auto;
+  transform: translateY(50px);
 }
-
-
 
 /* Aspetto e posizionamento dei cinque pulsanti circolari */
 .pentagono button {
-    position: absolute;
-    transform: translate(-50%, -50%);
+  position: absolute;
+  transform: translate(-50%, -50%);
 
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
 
-    background-color: #2e6b3e;
-    border: 2px solid white;
-    color: white;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  background-color: #2e6b3e;
+  border: 2px solid white;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Posizionamento della scritta curva intorno al pulsante */
 .testo-curvo {
-    position: absolute;
-    width: 100px;
-    height: 100px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    overflow: visible;
-    pointer-events: none;
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: visible;
+  pointer-events: none;
 }
 
 /* Scritta sul vertice destro */
 #btn-biodiversita .testo-curvo {
-    transform: translate(-50%, -50%) rotate(70deg);
+  transform: translate(-50%, -50%) rotate(70deg);
 }
 
 /* Scritta sul vertice inferiore destro */
 #btn-tracciabilità .testo-curvo {
-    transform: translate(-50%, -50%) rotate(140deg);
+  transform: translate(-50%, -50%) rotate(140deg);
 }
 
 /* Scritta sul vertice inferiore sinistro */
 #btn-capitaleumano .testo-curvo {
-    transform: translate(-50%, -50%) rotate(220deg);
+  transform: translate(-50%, -50%) rotate(220deg);
 }
 
 /* Scritta sul vertice sinistro */
 #btn-comunitàterritorio .testo-curvo {
-    transform: translate(-50%, -50%) rotate(-70deg);
+  transform: translate(-50%, -50%) rotate(-70deg);
 }
-
-/* Vertice superiore */
-#btn-sostenibilitàambientale {
-    top: 0%;
-    left: 50%;
-} 
 
 #btn-capitaleumano .testo-curvo text,
 #btn-tracciabilità .testo-curvo text {
-    letter-spacing: 2px;
+  letter-spacing: 2px;
 }
-
 
 /* Colore, dimensione e spessore della scritta curva */
 .testo-curvo text {
-    fill: #2e6b3e;
-    font-family: "Inter", sans-serif;
-    font-size: 25px;
-    font-weight: 700;
+  fill: #2e6b3e;
+  font-family: "Inter", sans-serif;
+  font-size: 25px;
+  font-weight: 700;
 }
-
-
-
-/* Vertice destro */
-#btn-biodiversita {
-    top: 36.33%;
-    left: 100%;
-}
-
-/* Vertice inferiore destro */
-#btn-tracciabilità {
-    top: 95.1%;
-    left: 80.9%;
-}
-
-/* Vertice inferiore sinistro */
-#btn-capitaleumano {
-    top: 95.1%;
-    left: 19.1%;
-}
-
-/* Vertice sinistro */
-#btn-comunitàterritorio {
-    top: 36.33%;
-    left: 0%;
-}
-
-
 
 /* Stile del pentagono SVG */
 .forma-pentagono {
-    width: 100%;
-    height: 100%;
-    fill: rgba(255, 255, 255, 0.75);
-    stroke: #2e6b3e;
-    stroke-width: 3;
-    pointer-events: none;
+  width: 100%;
+  height: 100%;
+  fill: #ffffff;
+  stroke: #2e6b3e;
+  stroke-width: 3;
+  pointer-events: none;
 }
-
-
 
 /* Stile delle icone dei pulsanti */
 .icona-bottone {
-    width: 32px;
-    height: 32px;
-    color: white;
-    stroke-width: 2;
+  width: 32px;
+  height: 32px;
+  color: white;
+  stroke-width: 2;
+}
+
+/* =========================================
+   GRUPPI DEI CINQUE VERTICI
+   ========================================= */
+
+/* Contenitore comune */
+.pentagono > div[class^="gruppo-"] {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+/* Posizione dei cinque gruppi */
+.pentagono > .gruppo-sostenibilita {
+  top: 0%;
+  left: 50%;
+}
+
+.pentagono > .gruppo-biodiversita {
+  top: 36.33%;
+  left: 100%;
+}
+
+.pentagono > .gruppo-tracciabilita {
+  top: 95.1%;
+  left: 80.9%;
+}
+
+.pentagono > .gruppo-capitaleumano {
+  top: 95.1%;
+  left: 19.1%;
+}
+
+.pentagono > .gruppo-comunita {
+  top: 36.33%;
+  left: 0%;
+}
+
+/* Centra i pulsanti all'interno dei gruppi */
+.pentagono > div[class^="gruppo-"] > button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* =========================================
+   MENU DELLE SOTTO-ATTIVITÀ
+   ========================================= */
+
+.menu-gruppo {
+  display: none;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 260px;
+  padding: 12px;
+  box-sizing: border-box;
+  background-color: white;
+  border: 2px solid #2e6b3e;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 20;
+}
+
+/* Stile dei collegamenti */
+.menu-gruppo a {
+  color: #2e6b3e;
+  text-decoration: none;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.menu-gruppo a:hover {
+  text-decoration: underline;
+}
+
+/* Sostenibilità ambientale: sopra */
+.gruppo-sostenibilita .menu-gruppo {
+  top: auto;
+  bottom: calc(100% + 40px);
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+}
+
+/* Biodiversità: destra */
+.gruppo-biodiversita .menu-gruppo {
+  top: 50%;
+  bottom: auto;
+  left: calc(100% + 40px);
+  right: auto;
+  transform: translateY(-50%);
+}
+
+/* Tracciabilità: sotto */
+.gruppo-tracciabilita .menu-gruppo {
+  top: calc(100% + 40px);
+  bottom: auto;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+}
+
+/* Capitale umano: sotto */
+.gruppo-capitaleumano .menu-gruppo {
+  top: calc(100% + 40px);
+  bottom: auto;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+}
+
+/* Comunità e territorio: sinistra */
+.gruppo-comunita .menu-gruppo {
+  top: 50%;
+  bottom: auto;
+  left: auto;
+  right: calc(100% + 40px);
+  transform: translateY(-50%);
+}
+
+/* Informazioni delle attività */
+.info-attivita {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 24px 0;
+}
+
+.info-attivita p {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+}
+
+/* Cerchietto verde */
+.pallino {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  min-width: 10px;
+  border-radius: 50%;
+  background-color: #2e6b3e;
+}
+
+/* =========================================
+   POPUP A TUTTO SCHERMO
+   ========================================= */
+
+/* Popup inizialmente nascosto */
+.popup-attivita {
+  display: block;
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000000;
+  z-index: 1000;
+
+  visibility: hidden;
+  opacity: 0;
+  transform-origin: top left;
+  transform: translate(0, 0) scale(1);
+
+  transition:
+    transform 500ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 300ms ease,
+    visibility 0s linear 500ms;
+}
+
+/* Popup aperto */
+.popup-attivita.aperto {
+  visibility: visible;
+  opacity: 1;
+  transform: translate(0, 0) scale(1);
+
+  transition:
+    transform 500ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 300ms ease,
+    visibility 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .popup-attivita {
+    transition: none;
+  }
+}
+
+/* Contenuto della sotto-attività */
+.contenuto-popup {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+/* Stile del pulsante di chiusura del popup */
+.chiudi-popup {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  z-index: 1001;
+
+  width: 45px;
+  height: 45px;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #2e6b3e;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.chiudi-popup svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: white;
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.chiudi-popup:hover {
+  background-color: #1c4528;
+}
+
+/* Effetto al passaggio del mouse */
+.chiudi-popup:hover {
+  background-color: #1c4528;
+}
+
+/* Riga contenente etichetta e icone SDG */
+.riga-sdg {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Contenitore delle icone */
+.icone-sdg {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+}
+
+/* Dimensioni delle icone */
+.icone-sdg img {
+  width: 65px;
+  height: 65px;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.riga-sdg {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.popup-attivita {
+  transition: none;
+}
+
+html {
+  scrollbar-gutter: stable;
+}
+
+/* Blocca lo scorrimento della pagina quando il popup è aperto */
+html:has(.popup-attivita.aperto),
+body:has(.popup-attivita.aperto) {
+  overflow: hidden;
+}
+
+.popup-attivita {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+footer {
+  transform: translateY(250px);
+}
+
+/* Simbolo centrale del pentagono */
+
+/* Simbolo di agricoltura sostenibile al centro del pentagono */
+
+.simbolo-centrale {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 240px;
+  height: 240px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 2;
+  pointer-events: none;
+}
+
+.simbolo-centrale img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Sotto-attività: rettangoli arrotondati */
+
+/* Rettangoli delle singole sotto-attività */
+
+/* Rettangoli delle singole sotto-attività */
+
+.menu-gruppo a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 3px 7px;
+  margin: 2px 0;
+
+  font-size: 11px;
+  line-height: 1.1;
+  font-weight: 600;
+
+  background: #f8f1e5;
+  color: #24452b;
+
+  border: 1px solid #e3d3ba;
+  border-radius: 7px;
+
+  box-shadow: 0 2px 5px rgba(50, 35, 20, 0.1);
+
+  text-decoration: none;
+
+  transition:
+    background-color 250ms ease,
+    box-shadow 250ms ease,
+    transform 250ms ease;
+}
+
+/* Effetto hover */
+
+.menu-gruppo a:hover {
+  background: #fff9ef;
+  transform: translateY(-2px);
+
+  box-shadow: 0 4px 8px rgba(50, 35, 20, 0.16);
+}
+
+/* Sostenibilità ambientale: collegamento verso l'alto */
+.gruppo-sostenibilita::before {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 100%;
+  height: 45px;
+
+  background: transparent;
+  pointer-events: auto;
+}
+
+/* Biodiversità: collegamento verso destra */
+.gruppo-biodiversita::after {
+  content: "";
+  position: absolute;
+  left: 100%;
+  top: 0;
+
+  width: 45px;
+  height: 100%;
+
+  background: transparent;
+  pointer-events: auto;
+}
+
+/* Tracciabilità e Capitale umano: collegamento verso il basso */
+.gruppo-tracciabilita::after,
+.gruppo-capitaleumano::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+
+  width: 100%;
+  height: 45px;
+
+  background: transparent;
+  pointer-events: auto;
+}
+
+/* Comunità e territorio: collegamento verso sinistra */
+.gruppo-comunita::after {
+  content: "";
+  position: absolute;
+  right: 100%;
+  top: 0;
+
+  width: 45px;
+  height: 100%;
+
+  background: transparent;
+  pointer-events: auto;
+}
+
+/* Comparsa morbida del menu */
+
+@keyframes apertura-menu {
+  from {
+    opacity: 0;
+    scale: 0.92;
+  }
+
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+/* Animazione delle sotto-attività */
+
+@keyframes comparsa-attivita {
+  from {
+    opacity: 0;
+    translate: 0 8px;
+  }
+
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+/* Animazione quando il menu diventa visibile */
+
+.menu-gruppo {
+  transform-origin: center;
+}
+
+.menu-gruppo a {
+  animation: comparsa-attivita 350ms ease-out both;
+}
+
+.menu-gruppo a:nth-child(1) {
+  animation-delay: 80ms;
+}
+
+.menu-gruppo a:nth-child(2) {
+  animation-delay: 140ms;
+}
+
+.menu-gruppo a:nth-child(3) {
+  animation-delay: 200ms;
+}
+
+.menu-gruppo a:nth-child(4) {
+  animation-delay: 260ms;
+}
+
+.menu-gruppo a:nth-child(5) {
+  animation-delay: 320ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-gruppo a {
+    animation: none;
+  }
+}
+
+/* Il menu rimane nel DOM, ma non è interattivo quando è chiuso */
+.pentagono .gruppo-sostenibilita .menu-botanico {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Visibile durante apertura e chiusura */
+.pentagono .gruppo-sostenibilita .menu-botanico.botanico-visibile {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.pentagono .gruppo-sostenibilita .menu-botanico.botanico-chiusura {
+  pointer-events: none;
+}
+
+/* Il JavaScript controlla la visibilità */
+.gruppo-sostenibilita .menu-botanico.botanico-visibile {
+  display: flex;
+}
+
+/* SVG decorativo */
+.menu-botanico .cornice-botanica {
+  position: absolute;
+  inset: -10px;
+  width: calc(100% + 20px);
+  height: calc(100% + 20px);
+  overflow: visible;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Stato iniziale degli elementi */
+.menu-botanico .bordo-legno {
+  stroke-dasharray: 1200;
+  stroke-dashoffset: 1200;
+}
+
+.menu-botanico .ramo-botanico {
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+}
+
+.menu-botanico .foglia-animata {
+  opacity: 0;
+}
+
+/* APERTURA */
+
+.menu-botanico.botanico-apertura {
+  pointer-events: auto;
+  animation: comparsa-botanica 450ms ease-out both;
+}
+
+.menu-botanico.botanico-apertura .bordo-legno {
+  animation: disegna-legno 750ms ease forwards;
+}
+
+.menu-botanico.botanico-apertura .ramo-botanico {
+  animation: crescita-ramo 850ms ease-out forwards;
+}
+
+.menu-botanico.botanico-apertura .ramo-due {
+  animation-delay: 180ms;
+}
+
+.menu-botanico.botanico-apertura .foglia-animata {
+  animation: comparsa-foglia 450ms ease-out forwards;
+}
+
+.menu-botanico.botanico-apertura .foglia-1 {
+  animation-delay: 300ms;
+}
+.menu-botanico.botanico-apertura .foglia-2 {
+  animation-delay: 420ms;
+}
+.menu-botanico.botanico-apertura .foglia-3 {
+  animation-delay: 540ms;
+}
+.menu-botanico.botanico-apertura .foglia-4 {
+  animation-delay: 650ms;
+}
+.menu-botanico.botanico-apertura .foglia-5 {
+  animation-delay: 760ms;
+}
+.menu-botanico.botanico-apertura .foglia-6 {
+  animation-delay: 870ms;
+}
+
+/* CHIUSURA - SEQUENZA INVERSA */
+
+.menu-botanico.botanico-chiusura {
+  pointer-events: none;
+
+  /* Attende 600ms prima di iniziare a scomparire */
+  animation: comparsa-botanica 450ms ease-in 600ms reverse forwards;
+}
+
+.menu-botanico.botanico-chiusura .bordo-legno {
+  animation: disegna-legno 750ms ease-in reverse forwards;
+  animation-delay: 350ms;
+}
+
+.menu-botanico.botanico-chiusura .ramo-botanico {
+  animation: crescita-ramo 850ms ease-in reverse forwards;
+  animation-delay: 200ms;
+}
+
+.menu-botanico.botanico-chiusura .ramo-due {
+  animation-delay: 100ms;
+}
+
+.menu-botanico.botanico-chiusura .foglia-animata {
+  animation: comparsa-foglia 300ms ease-in reverse forwards;
+}
+
+.menu-botanico.botanico-chiusura .foglia-1 {
+  animation-delay: 600ms;
+}
+.menu-botanico.botanico-chiusura .foglia-2 {
+  animation-delay: 500ms;
+}
+.menu-botanico.botanico-chiusura .foglia-3 {
+  animation-delay: 400ms;
+}
+.menu-botanico.botanico-chiusura .foglia-4 {
+  animation-delay: 300ms;
+}
+.menu-botanico.botanico-chiusura .foglia-5 {
+  animation-delay: 200ms;
+}
+.menu-botanico.botanico-chiusura .foglia-6 {
+  animation-delay: 100ms;
+}
+
+/* Collegamenti davanti alla decorazione */
+.menu-botanico a {
+  position: relative;
+  z-index: 1;
+}
+
+.menu-botanico.botanico-chiusura a {
+  animation: none;
+}
+
+/* KEYFRAMES */
+
+@keyframes comparsa-botanica {
+  from {
+    opacity: 0;
+    scale: 0.94;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+@keyframes disegna-legno {
+  from {
+    stroke-dashoffset: 1200;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes crescita-ramo {
+  from {
+    stroke-dashoffset: 400;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes comparsa-foglia {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Accessibilità */
+@media (prefers-reduced-motion: reduce) {
+  .menu-botanico,
+  .menu-botanico .bordo-legno,
+  .menu-botanico .ramo-botanico,
+  .menu-botanico .foglia-animata {
+    animation: none !important;
+  }
+
+  .menu-botanico .bordo-legno,
+  .menu-botanico .ramo-botanico {
+    stroke-dashoffset: 0;
+  }
+
+  .menu-botanico .foglia-animata {
+    opacity: 1;
+  }
+}
+
+/* Visibilità controllata dal JavaScript */
+
+.pentagono .gruppo-sostenibilita .menu-botanico {
+  display: flex;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.pentagono .gruppo-sostenibilita .menu-botanico.botanico-visibile {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.pentagono .gruppo-sostenibilita .menu-botanico.botanico-chiusura {
+  visibility: visible;
+  pointer-events: none;
+}
+
+/* Mantiene il menu visibile durante la chiusura */
+
+.pentagono .gruppo-sostenibilita .menu-botanico.botanico-chiusura {
+  display: flex !important;
+  visibility: visible !important;
+  pointer-events: none;
+}
+
+/* Animazioni botaniche gestite da JavaScript */
+
+.pentagono .menu-botanico,
+.pentagono .menu-botanico .bordo-legno,
+.pentagono .menu-botanico .ramo-botanico,
+.pentagono .menu-botanico .foglia-animata {
+  animation: none !important;
+}
+
+/* Tutti i menu botanici rimangono nel DOM */
+.pentagono .menu-botanico {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Menu aperto */
+.pentagono .menu-botanico.botanico-visibile {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Menu durante la chiusura */
+.pentagono .menu-botanico.botanico-chiusura {
+  visibility: visible;
+  pointer-events: none;
 }
