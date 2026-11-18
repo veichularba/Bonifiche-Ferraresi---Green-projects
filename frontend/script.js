@@ -210,16 +210,21 @@ function chiudiScheda() {
       contenutoPopup.removeAttribute("src");
       contenutoPopup.style.height = "300px";
 
-      popupAperto = false;
-      chiusuraInCorso = false;
-
       animazioneChiusura.cancel();
 
+      // Ripristina il focus mentre il popup è ancora bloccato,
+      // evitando che il focus riattivi un altro hover.
       if (elementoOrigine) {
         elementoOrigine.focus();
       }
 
       elementoOrigine = null;
+
+      popupAperto = false;
+      chiusuraInCorso = false;
+
+      // Comunica ai menu che il popup è completamente chiuso.
+      document.dispatchEvent(new Event("popup-pronto"));
     })
     .catch(function () {
       chiusuraInCorso = false;
@@ -242,6 +247,8 @@ window.addEventListener("resize", aggiornaAltezzaPopup);
 /* Apertura e chiusura dei cinque menu botanici */
 
 const gruppiBotanici = document.querySelectorAll(".pentagono > div[class^='gruppo-']");
+
+let menuBotanicoAttivo = null;
 
 gruppiBotanici.forEach((gruppoBotanico) => {
   const menuBotanico = gruppoBotanico.querySelector(".menu-botanico");
@@ -315,6 +322,14 @@ gruppiBotanici.forEach((gruppoBotanico) => {
   function apriMenuBotanico() {
     if (popupAperto || chiusuraInCorso) return;
 
+    // Un altro menu possiede già il controllo esclusivo.
+    if (menuBotanicoAttivo && menuBotanicoAttivo !== gruppoBotanico) {
+      return;
+    }
+
+    // Il primo menu acquisisce il controllo.
+    menuBotanicoAttivo = gruppoBotanico;
+
     clearTimeout(timerChiusuraBotanica);
 
     /* Se il menu è già aperto, non riavvia le animazioni */
@@ -351,17 +366,37 @@ gruppiBotanici.forEach((gruppoBotanico) => {
     chiusuraMenuAvviata = true;
     menuBotanico.style.pointerEvents = "none";
 
+    // Avvia la chiusura di tutte le animazioni.
     animazioniBotaniche.forEach((animazione) => {
       animazione.reverse();
     });
 
-    timerChiusuraBotanica = setTimeout(() => {
-      menuBotanico.style.visibility = "hidden";
-      menuBotanico.classList.remove("botanico-visibile");
+    // Aspetta la conclusione effettiva delle animazioni.
+    Promise.all(animazioniBotaniche.map((animazione) => animazione.finished))
+      .then(() => {
+        // Se la chiusura è stata interrotta, non nasconde il menu.
+        if (!chiusuraMenuAvviata || popupAperto || chiusuraInCorso) {
+          return;
+        }
 
-      menuAperto = false;
-      chiusuraMenuAvviata = false;
-    }, 1400);
+        menuBotanico.style.visibility = "hidden";
+        menuBotanico.classList.remove("botanico-visibile");
+
+        menuAperto = false;
+        chiusuraMenuAvviata = false;
+
+        // Libera il controllo esclusivo.
+        if (menuBotanicoAttivo === gruppoBotanico) {
+          menuBotanicoAttivo = null;
+        }
+
+        // Controlla se il mouse è già sopra un altro vertice.
+        document.dispatchEvent(new Event("botanico-libero"));
+      })
+      .catch(() => {
+        // Un'animazione può essere interrotta o invertita.
+        // In quel caso non completa una chiusura ormai annullata.
+      });
   }
 
   /* Mantiene il menu aperto durante il popup */
@@ -384,11 +419,26 @@ gruppiBotanici.forEach((gruppoBotanico) => {
     menuBotanico.classList.add("botanico-visibile");
   });
 
-  //* Apre il menu se il mouse si trova già sul vertice */
+  /* Controlla il menu botanico dopo la chiusura del popup */
   document.addEventListener("popup-pronto", function () {
-    if (gruppoBotanico.matches(":hover")) {
-      apriMenuBotanico();
-    }
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        // Il popup deve essere completamente chiuso.
+        if (popupAperto || chiusuraInCorso) return;
+
+        // Solo il menu proprietario può decidere se rimanere aperto.
+        if (menuBotanicoAttivo !== gruppoBotanico) return;
+
+        // Il browser ha aggiornato lo stato hover.
+        if (gruppoBotanico.matches(":hover")) {
+          // Mouse nella zona valida: il menu rimane aperto.
+          return;
+        }
+
+        // Mouse fuori dalla zona valida: chiusura normale.
+        chiudiMenuBotanico();
+      });
+    });
   });
 
   gruppoBotanico.addEventListener("mouseenter", apriMenuBotanico);
