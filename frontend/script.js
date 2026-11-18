@@ -367,12 +367,15 @@ gruppiBotanici.forEach((gruppoBotanico) => {
     menuBotanico.style.pointerEvents = "none";
 
     // Avvia la chiusura di tutte le animazioni.
+    // La chiusura è più rapida dell'apertura.
     animazioniBotaniche.forEach((animazione) => {
+      animazione.playbackRate = 1.5;
       animazione.reverse();
     });
 
-    // Aspetta la conclusione effettiva delle animazioni.
-    Promise.all(animazioniBotaniche.map((animazione) => animazione.finished))
+    // Aspetta che il menu completo diventi invisibile.
+    // Le animazioni decorative possono terminare successivamente.
+    animazioniBotaniche[0].finished
       .then(() => {
         // Se la chiusura è stata interrotta, non nasconde il menu.
         if (!chiusuraMenuAvviata || popupAperto || chiusuraInCorso) {
@@ -443,8 +446,17 @@ gruppiBotanici.forEach((gruppoBotanico) => {
 
   gruppoBotanico.addEventListener("mouseenter", apriMenuBotanico);
 
-  gruppoBotanico.addEventListener("mouseleave", chiudiMenuBotanico);
+  // Quando un altro menu libera il blocco, verifica se
+  // il mouse si trova già nella zona hover di questo menu.
+  document.addEventListener("botanico-libero", function () {
+    if (popupAperto || chiusuraInCorso) return;
 
+    if (!menuBotanicoAttivo && gruppoBotanico.matches(":hover")) {
+      apriMenuBotanico();
+    }
+  });
+
+  gruppoBotanico.addEventListener("mouseleave", chiudiMenuBotanico);
   gruppoBotanico.addEventListener("focusin", apriMenuBotanico);
 
   gruppoBotanico.addEventListener("focusout", (event) => {
