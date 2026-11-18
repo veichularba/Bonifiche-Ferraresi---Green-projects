@@ -15,6 +15,7 @@ pulsantiAttivita.forEach(function (pulsanteAttivita) {
    POPUP CON ANIMAZIONE DI ESPANSIONE
    ========================================= */
 
+const overlayPopup = document.getElementById("overlay-popup");
 const popup = document.getElementById("popup-attivita");
 const contenutoPopup = document.getElementById("contenuto-popup");
 const chiudiPopup = document.getElementById("chiudi-popup");
@@ -22,21 +23,68 @@ const chiudiPopup = document.getElementById("chiudi-popup");
 const collegamentiAttivita = document.querySelectorAll(".menu-gruppo a");
 
 const durataAnimazione = 500;
+
 let elementoOrigine = null;
-let posizioneOrigine = null;
-let animazionePopup = null;
 let popupAperto = false;
 let chiusuraInCorso = false;
+let animazionePopup = null;
+let osservatoreContenuto = null;
 
-/* Calcola la trasformazione dal collegamento al fullscreen */
+/* Calcola la trasformazione dal collegamento alla finestra */
 function trasformazioneOrigine(elemento) {
-  const rettangolo = elemento.getBoundingClientRect();
+  const origine = elemento.getBoundingClientRect();
+  const destinazione = popup.getBoundingClientRect();
 
-  const scalaX = Math.max(rettangolo.width / window.innerWidth, 0.001);
-  const scalaY = Math.max(rettangolo.height / window.innerHeight, 0.001);
+  const scalaX = Math.max(origine.width / destinazione.width, 0.001);
+  const scalaY = Math.max(origine.height / destinazione.height, 0.001);
 
-  return `translate(${rettangolo.left}px, ${rettangolo.top}px) scale(${scalaX}, ${scalaY})`;
+  const spostamentoX = origine.left - destinazione.left;
+  const spostamentoY = origine.top - destinazione.top;
+
+  return `translate(${spostamentoX}px, ${spostamentoY}px) scale(${scalaX}, ${scalaY})`;
 }
+
+/* Adatta l'altezza dell'iframe al contenuto */
+function aggiornaAltezzaPopup() {
+  if (!popupAperto || chiusuraInCorso) return;
+
+  try {
+    const documento = contenutoPopup.contentDocument;
+    if (!documento) return;
+
+    const altezzaContenuto = Math.max(documento.body.scrollHeight, documento.documentElement.scrollHeight);
+
+    const altezzaMassima = window.innerHeight * 0.9;
+
+    contenutoPopup.style.height = `${Math.min(altezzaContenuto, altezzaMassima)}px`;
+
+    documento.documentElement.style.overflow = "auto";
+    documento.body.style.overflow = "auto";
+  } catch (errore) {
+    console.warn("Impossibile misurare il contenuto:", errore);
+  }
+}
+
+/* Aggiorna la misura dopo il caricamento */
+contenutoPopup.addEventListener("load", function () {
+  if (osservatoreContenuto) {
+    osservatoreContenuto.disconnect();
+    osservatoreContenuto = null;
+  }
+
+  aggiornaAltezzaPopup();
+
+  try {
+    const documento = contenutoPopup.contentDocument;
+
+    if (documento && documento.body) {
+      osservatoreContenuto = new ResizeObserver(aggiornaAltezzaPopup);
+      osservatoreContenuto.observe(documento.body);
+    }
+  } catch (errore) {
+    console.warn("Osservazione contenuto non disponibile:", errore);
+  }
+});
 
 /* Apertura */
 collegamentiAttivita.forEach(function (collegamento) {
@@ -46,23 +94,54 @@ collegamentiAttivita.forEach(function (collegamento) {
     if (popupAperto || chiusuraInCorso) return;
 
     elementoOrigine = collegamento;
-    posizioneOrigine = trasformazioneOrigine(collegamento);
     popupAperto = true;
 
-    contenutoPopup.src = collegamento.getAttribute("href");
+    /* Memorizza la posizione prima di aprire il popup */
+    const rettangoloOrigine = collegamento.getBoundingClientRect();
 
-    popup.style.visibility = "visible";
+    /* Mantiene stabili i menu botanici */
+    document.dispatchEvent(new Event("popup-aperto"));
+
+    /* Nasconde i menu prima di modificare il focus */
+
+    /* Il menu botanico rimane aperto dietro al popup */
+
+    contenutoPopup.style.height = "300px";
+
+    overlayPopup.style.removeProperty("pointer-events");
+    overlayPopup.classList.add("aperto");
+    overlayPopup.setAttribute("aria-hidden", "false");
+
     popup.classList.add("aperto");
     popup.setAttribute("aria-hidden", "false");
 
-    const partenza = posizioneOrigine;
+    contenutoPopup.src = collegamento.getAttribute("href");
+
+    /* Calcola l'animazione usando la posizione memorizzata */
+    const destinazionePopup = popup.getBoundingClientRect();
+
+    const scalaX = Math.max(rettangoloOrigine.width / destinazionePopup.width, 0.001);
+    const scalaY = Math.max(rettangoloOrigine.height / destinazionePopup.height, 0.001);
+
+    const spostamentoX = rettangoloOrigine.left - destinazionePopup.left;
+    const spostamentoY = rettangoloOrigine.top - destinazionePopup.top;
+
+    const partenza = `translate(${spostamentoX}px, ${spostamentoY}px) scale(${scalaX}, ${scalaY})`;
 
     if (animazionePopup) animazionePopup.cancel();
 
     animazionePopup = popup.animate(
       [
-        { transform: partenza, opacity: 0.5, borderRadius: "12px" },
-        { transform: "translate(0, 0) scale(1)", opacity: 1, borderRadius: "0px" },
+        {
+          transform: partenza,
+          opacity: 0.5,
+          borderRadius: "12px",
+        },
+        {
+          transform: "translate(0, 0) scale(1)",
+          opacity: 1,
+          borderRadius: "16px",
+        },
       ],
       {
         duration: durataAnimazione,
@@ -80,7 +159,7 @@ collegamentiAttivita.forEach(function (collegamento) {
   });
 });
 
-/* Chiusura con animazione inversa */
+/* Chiusura */
 function chiudiScheda() {
   if (!popupAperto || chiusuraInCorso) return;
 
@@ -91,41 +170,24 @@ function chiudiScheda() {
     animazionePopup = null;
   }
 
-  const destinazione = posizioneOrigine || "translate(0, 0) scale(0.01)";
+  if (osservatoreContenuto) {
+    osservatoreContenuto.disconnect();
+    osservatoreContenuto = null;
+  }
 
-  const valoriOrigine = posizioneOrigine.match(
-    /translate\(([-\d.]+)px,\s*([-\d.]+)px\)\s*scale\(([-\d.]+),\s*([-\d.]+)\)/,
-  );
-
-  const centroX = valoriOrigine
-    ? Number(valoriOrigine[1]) + (window.innerWidth * Number(valoriOrigine[3])) / 2
-    : window.innerWidth / 2;
-
-  const centroY = valoriOrigine
-    ? Number(valoriOrigine[2]) + (window.innerHeight * Number(valoriOrigine[4])) / 2
-    : window.innerHeight / 2;
-
-  const trasformazionePunto = `translate(${centroX}px, ${centroY}px) scale(0.0001)`;
+  const destinazione = elementoOrigine ? trasformazioneOrigine(elementoOrigine) : "scale(0.01)";
 
   const animazioneChiusura = popup.animate(
     [
       {
         transform: "translate(0, 0) scale(1)",
         opacity: 1,
-        borderRadius: "0px",
-        offset: 0,
+        borderRadius: "16px",
       },
       {
         transform: destinazione,
-        opacity: 1,
-        borderRadius: "12px",
-        offset: 0.7,
-      },
-      {
-        transform: trasformazionePunto,
         opacity: 0,
-        borderRadius: "50%",
-        offset: 1,
+        borderRadius: "12px",
       },
     ],
     {
@@ -135,40 +197,47 @@ function chiudiScheda() {
     },
   );
 
+  overlayPopup.style.pointerEvents = "none";
+  overlayPopup.classList.remove("aperto");
+
   animazioneChiusura.finished
     .then(function () {
       popup.classList.remove("aperto");
-      popup.style.visibility = "hidden";
       popup.setAttribute("aria-hidden", "true");
 
+      overlayPopup.setAttribute("aria-hidden", "true");
+
       contenutoPopup.removeAttribute("src");
+      contenutoPopup.style.height = "300px";
 
       popupAperto = false;
       chiusuraInCorso = false;
+
+      animazioneChiusura.cancel();
 
       if (elementoOrigine) {
         elementoOrigine.focus();
       }
 
       elementoOrigine = null;
-      posizioneOrigine = null;
-
-      animazioneChiusura.cancel();
     })
     .catch(function () {
       chiusuraInCorso = false;
     });
 }
 
-/* Pulsante X */
+/* Chiusura tramite pulsante X */
 chiudiPopup.addEventListener("click", chiudiScheda);
 
-/* Tasto ESC */
+/* Chiusura tramite Escape */
 document.addEventListener("keydown", function (evento) {
   if (evento.key === "Escape" && popupAperto) {
     chiudiScheda();
   }
 });
+
+/* Aggiornamento al ridimensionamento della finestra */
+window.addEventListener("resize", aggiornaAltezzaPopup);
 
 /* Apertura e chiusura dei cinque menu botanici */
 
@@ -182,6 +251,7 @@ gruppiBotanici.forEach((gruppoBotanico) => {
   let animazioniBotaniche = [];
   let timerChiusuraBotanica;
   let menuAperto = false;
+  let chiusuraMenuAvviata = false;
 
   function creaAnimazioniBotaniche() {
     // Menu completo
@@ -243,7 +313,21 @@ gruppiBotanici.forEach((gruppoBotanico) => {
   }
 
   function apriMenuBotanico() {
+    if (popupAperto || chiusuraInCorso) return;
+
     clearTimeout(timerChiusuraBotanica);
+
+    /* Se il menu è già aperto, non riavvia le animazioni */
+
+    if (menuAperto && !chiusuraMenuAvviata) {
+      menuBotanico.style.pointerEvents = "auto";
+      return;
+    }
+
+    chiusuraMenuAvviata = false;
+
+    menuBotanico.style.removeProperty("visibility");
+    menuBotanico.style.removeProperty("opacity");
 
     menuBotanico.classList.add("botanico-visibile");
     menuBotanico.style.visibility = "visible";
@@ -262,8 +346,9 @@ gruppiBotanici.forEach((gruppoBotanico) => {
   }
 
   function chiudiMenuBotanico() {
-    if (!menuAperto) return;
+    if (!menuAperto || popupAperto || chiusuraInCorso || chiusuraMenuAvviata) return;
 
+    chiusuraMenuAvviata = true;
     menuBotanico.style.pointerEvents = "none";
 
     animazioniBotaniche.forEach((animazione) => {
@@ -273,9 +358,38 @@ gruppiBotanici.forEach((gruppoBotanico) => {
     timerChiusuraBotanica = setTimeout(() => {
       menuBotanico.style.visibility = "hidden";
       menuBotanico.classList.remove("botanico-visibile");
+
       menuAperto = false;
+      chiusuraMenuAvviata = false;
     }, 1400);
   }
+
+  /* Mantiene il menu aperto durante il popup */
+  document.addEventListener("popup-aperto", function () {
+    clearTimeout(timerChiusuraBotanica);
+
+    if (!menuAperto) return;
+
+    if (chiusuraMenuAvviata) {
+      animazioniBotaniche.forEach((animazione) => {
+        animazione.playbackRate = 1;
+        animazione.play();
+      });
+
+      chiusuraMenuAvviata = false;
+    }
+
+    menuBotanico.style.visibility = "visible";
+    menuBotanico.style.pointerEvents = "auto";
+    menuBotanico.classList.add("botanico-visibile");
+  });
+
+  //* Apre il menu se il mouse si trova già sul vertice */
+  document.addEventListener("popup-pronto", function () {
+    if (gruppoBotanico.matches(":hover")) {
+      apriMenuBotanico();
+    }
+  });
 
   gruppoBotanico.addEventListener("mouseenter", apriMenuBotanico);
 
@@ -284,6 +398,8 @@ gruppiBotanici.forEach((gruppoBotanico) => {
   gruppoBotanico.addEventListener("focusin", apriMenuBotanico);
 
   gruppoBotanico.addEventListener("focusout", (event) => {
+    if (popupAperto || chiusuraInCorso) return;
+
     if (!gruppoBotanico.contains(event.relatedTarget)) {
       chiudiMenuBotanico();
     }

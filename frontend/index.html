@@ -506,7 +506,6 @@
           <a href="details/capitaleumano/13_capitale_umano_sistemi_protezione.html">Sistemi di protezione</a>
           <a href="details/capitaleumano/14_capitale_umano_programmi_valutazione.html">Programmi di valutazione</a>
           <a href="details/capitaleumano/15_capitale_umano_iso_45001.html">Certificazioni ISO 45001</a>
-
         </div>
       </div>
 
@@ -881,15 +880,24 @@
       </div>
     </div>
 
-    <!-- Popup a tutto schermo per le sotto-attività -->
-    <div id="popup-attivita" class="popup-attivita" aria-hidden="true">
-      <button id="chiudi-popup" class="chiudi-popup" type="button" aria-label="Chiudi scheda">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M5 5 L19 19 M19 5 L5 19" />
-        </svg>
-      </button>
+    <!-- Sfondo oscurato e finestra delle sotto-attività -->
+    <div id="overlay-popup" class="overlay-popup" aria-hidden="true">
+      <div
+        id="popup-attivita"
+        class="popup-attivita"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Dettagli della sotto-attività"
+        aria-hidden="true"
+      >
+        <button id="chiudi-popup" class="chiudi-popup" type="button" aria-label="Chiudi scheda">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 5 L19 19 M19 5 L5 19" />
+          </svg>
+        </button>
 
-      <iframe id="contenuto-popup" class="contenuto-popup" title="Dettagli della sotto-attività"></iframe>
+        <iframe id="contenuto-popup" class="contenuto-popup" title="Dettagli della sotto-attività"> </iframe>
+      </div>
     </div>
 
     <footer>
