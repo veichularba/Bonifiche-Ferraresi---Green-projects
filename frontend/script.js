@@ -250,10 +250,24 @@ const gruppiBotanici = document.querySelectorAll(".pentagono > div[class^='grupp
 
 let menuBotanicoAttivo = null;
 
+const mediaMobile = window.matchMedia("(max-width: 600px)");
+
+function isMobile() {
+  return mediaMobile.matches;
+}
+
 gruppiBotanici.forEach((gruppoBotanico) => {
   const menuBotanico = gruppoBotanico.querySelector(".menu-botanico");
 
   if (!menuBotanico) return;
+
+    const pulsanteIndietro = document.createElement("button");
+  pulsanteIndietro.type = "button";
+  pulsanteIndietro.className = "indietro-botanico";
+  pulsanteIndietro.textContent = "← Indietro";
+  pulsanteIndietro.setAttribute("aria-label", "Torna al pentagono");
+
+  menuBotanico.prepend(pulsanteIndietro);
 
   let animazioniBotaniche = [];
   let timerChiusuraBotanica;
