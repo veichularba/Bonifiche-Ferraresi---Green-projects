@@ -261,7 +261,37 @@ gruppiBotanici.forEach((gruppoBotanico) => {
 
   if (!menuBotanico) return;
 
-    const pulsanteIndietro = document.createElement("button");
+  // Su smartphone apre il menu toccando il pulsante del pentagono.
+  const pulsantePentagono = gruppoBotanico.querySelector("button");
+
+  if (pulsantePentagono) {
+    pulsantePentagono.addEventListener("click", () => {
+      if (!isMobile()) return;
+      apriMenuBotanico();
+    });
+  }
+
+  // Conserva la posizione originale del menu.
+  const posizioneOriginale = document.createComment("Posizione originale menu botanico");
+  menuBotanico.before(posizioneOriginale);
+
+  function spostaMenuMobile() {
+    if (!isMobile()) return;
+
+    if (menuBotanico.parentElement !== document.body) {
+      document.body.appendChild(menuBotanico);
+    }
+  }
+
+  function ripristinaMenuDesktop() {
+    if (isMobile()) return;
+
+    if (menuBotanico.parentElement === document.body) {
+      posizioneOriginale.after(menuBotanico);
+    }
+  }
+
+  const pulsanteIndietro = document.createElement("button");
   pulsanteIndietro.type = "button";
   pulsanteIndietro.className = "indietro-botanico";
   pulsanteIndietro.textContent = "← Indietro";
@@ -269,6 +299,15 @@ gruppiBotanici.forEach((gruppoBotanico) => {
 
   menuBotanico.prepend(pulsanteIndietro);
 
+  // Su smartphone chiude il menu e torna al pentagono.
+  pulsanteIndietro.addEventListener("click", (evento) => {
+    evento.preventDefault();
+    evento.stopPropagation();
+
+    if (!isMobile()) return;
+
+    chiudiMenuBotanico();
+  });
   let animazioniBotaniche = [];
   let timerChiusuraBotanica;
   let menuAperto = false;
@@ -336,6 +375,10 @@ gruppiBotanici.forEach((gruppoBotanico) => {
   function apriMenuBotanico() {
     if (popupAperto || chiusuraInCorso) return;
 
+    // Su smartphone porta il menu fuori dal pentagono.
+    if (isMobile()) {
+      spostaMenuMobile();
+    }
     // Un altro menu possiede già il controllo esclusivo.
     if (menuBotanicoAttivo && menuBotanicoAttivo !== gruppoBotanico) {
       return;
@@ -446,7 +489,11 @@ gruppiBotanici.forEach((gruppoBotanico) => {
         // Solo il menu proprietario può decidere se rimanere aperto.
         if (menuBotanicoAttivo !== gruppoBotanico) return;
 
-        // Il browser ha aggiornato lo stato hover.
+        // Su smartphone il menu rimane sempre aperto.
+        // Si chiude soltanto tramite il pulsante Indietro.
+        if (isMobile()) return;
+
+        // Sul desktop manteniamo il comportamento hover originale.
         if (gruppoBotanico.matches(":hover")) {
           // Mouse nella zona valida: il menu rimane aperto.
           return;
@@ -458,7 +505,10 @@ gruppiBotanici.forEach((gruppoBotanico) => {
     });
   });
 
-  gruppoBotanico.addEventListener("mouseenter", apriMenuBotanico);
+  gruppoBotanico.addEventListener("mouseleave", () => {
+    if (isMobile()) return;
+    chiudiMenuBotanico();
+  });
 
   // Quando un altro menu libera il blocco, verifica se
   // il mouse si trova già nella zona hover di questo menu.
@@ -470,10 +520,13 @@ gruppiBotanici.forEach((gruppoBotanico) => {
     }
   });
 
-  gruppoBotanico.addEventListener("mouseleave", chiudiMenuBotanico);
-  gruppoBotanico.addEventListener("focusin", apriMenuBotanico);
+  gruppoBotanico.addEventListener("focusin", () => {
+    if (isMobile()) return;
+    apriMenuBotanico();
+  });
 
   gruppoBotanico.addEventListener("focusout", (event) => {
+    if (isMobile()) return;
     if (popupAperto || chiusuraInCorso) return;
 
     if (!gruppoBotanico.contains(event.relatedTarget)) {
