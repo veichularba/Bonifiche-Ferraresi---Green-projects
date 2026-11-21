@@ -46,9 +46,9 @@ if (frecciaDownload && pulsanteDownload) {
   function aggiornaFrecciaDownload() {
     const rettangoloDownload = pulsanteDownload.getBoundingClientRect();
 
-    const downloadVisibile = rettangoloDownload.top < window.innerHeight && rettangoloDownload.bottom > 0;
+    const downloadVisibile = rettangoloDownload.top >= 0 && rettangoloDownload.bottom <= window.innerHeight;
 
-    const downloadPiuInBasso = rettangoloDownload.top >= window.innerHeight;
+    const downloadPiuInBasso = rettangoloDownload.bottom > window.innerHeight;
 
     const popupVisibile = document.querySelector(".overlay-popup.aperto") !== null;
 

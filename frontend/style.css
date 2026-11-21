@@ -103,6 +103,7 @@ button {
 
 .pentagono {
   position: relative;
+  z-index: 10;
   width: min(400px, 55vw);
   height: auto;
   aspect-ratio: 1 / 1;
