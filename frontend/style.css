@@ -3,9 +3,7 @@ body {
   background-color: #ffffff;
   color: #665544;
   font-family: "Inter", sans-serif;
-  margin: 0;
 }
-
 h1 {
   color: #2e6b3e;
   font-size: 48px;
@@ -63,7 +61,6 @@ button {
 /* Stile del titolo e slogan */
 .overlay-titolo {
   position: relative;
-  background-color: transparent;
   width: 70%;
   max-width: 800px;
   margin: 40px 0;
@@ -103,11 +100,11 @@ button {
   margin: 0;
 }
 
-/* Stile del pentagono e dei pulsanti */
 .pentagono {
   position: relative;
-  width: 400px;
-  height: 400px;
+  width: min(400px, 55vw);
+  height: auto;
+  aspect-ratio: 1 / 1;
   margin: 60px auto;
   transform: translateY(50px);
 }
@@ -206,6 +203,13 @@ button {
   z-index: 10;
 }
 
+/* Il gruppo con il menu botanico aperto passa sopra gli altri vertici */
+@media (min-width: 601px) {
+  .pentagono > div[class^="gruppo-"]:has(.menu-botanico.botanico-visibile) {
+    z-index: 30;
+  }
+}
+
 /* Posizione dei cinque gruppi */
 .pentagono > .gruppo-sostenibilita {
   top: 0%;
@@ -234,10 +238,8 @@ button {
 
 /* Centra i pulsanti all'interno dei gruppi */
 .pentagono > div[class^="gruppo-"] > button {
-  position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
 }
 
 /* =========================================
@@ -260,14 +262,6 @@ button {
   z-index: 20;
 }
 
-/* Stile dei collegamenti */
-.menu-gruppo a {
-  color: #2e6b3e;
-  text-decoration: none;
-  font-weight: 600;
-  line-height: 1.4;
-}
-
 .menu-gruppo a:hover {
   text-decoration: underline;
 }
@@ -276,12 +270,10 @@ button {
 .gruppo-sostenibilita .menu-gruppo {
   top: auto;
   bottom: calc(100% + 40px);
-  left: 50%;
   right: auto;
-  transform: translateX(-50%);
 }
 
-/* Biodiversità: destra */
+/* Biodiversità: destra sul desktop grande */
 .gruppo-biodiversita .menu-gruppo {
   top: 50%;
   bottom: auto;
@@ -290,31 +282,49 @@ button {
   transform: translateY(-50%);
 }
 
-/* Tracciabilità: sotto */
-.gruppo-tracciabilita .menu-gruppo {
-  top: calc(100% + 40px);
-  bottom: auto;
-  left: 50%;
-  right: auto;
-  transform: translateX(-50%);
+/* Biodiversità: verso l'interno sugli schermi intermedi */
+@media (min-width: 601px) and (max-width: 1100px) {
+  .gruppo-biodiversita .menu-gruppo {
+    left: auto;
+    right: calc(100% + 40px);
+  }
+
+  /* Collegamento invisibile verso sinistra */
+  .gruppo-biodiversita::after {
+    left: auto;
+    right: 100%;
+  }
 }
 
-/* Capitale umano: sotto */
+/* Tracciabilità e Capitale umano: menu posizionati sotto */
+.gruppo-tracciabilita .menu-gruppo,
 .gruppo-capitaleumano .menu-gruppo {
   top: calc(100% + 40px);
   bottom: auto;
-  left: 50%;
   right: auto;
-  transform: translateX(-50%);
 }
 
-/* Comunità e territorio: sinistra */
+/* Comunità e territorio: sinistra sul desktop grande */
 .gruppo-comunita .menu-gruppo {
   top: 50%;
   bottom: auto;
   left: auto;
   right: calc(100% + 40px);
   transform: translateY(-50%);
+}
+
+/* Comunità e territorio: verso l'interno sugli schermi intermedi */
+@media (min-width: 601px) and (max-width: 1100px) {
+  .gruppo-comunita .menu-gruppo {
+    left: calc(100% + 40px);
+    right: auto;
+  }
+
+  /* Collegamento invisibile verso destra */
+  .gruppo-comunita::after {
+    right: auto;
+    left: 100%;
+  }
 }
 
 /* Informazioni delle attività */
@@ -334,14 +344,12 @@ button {
 
 /* Cerchietto verde */
 .pallino {
-  display: inline-block;
   width: 10px;
   height: 10px;
-  min-width: 10px;
+  flex-shrink: 0;
   border-radius: 50%;
   background-color: #2e6b3e;
 }
-
 /* =========================================
    POPUP CENTRATO DELLE SOTTO-ATTIVITÀ
    ========================================= */
@@ -454,10 +462,6 @@ button {
   stroke-linecap: round;
 }
 
-.chiudi-popup:hover {
-  background-color: #1c4528;
-}
-
 /* Effetto al passaggio del mouse */
 .chiudi-popup:hover {
   background-color: #1c4528;
@@ -488,12 +492,6 @@ button {
   border-radius: 4px;
 }
 
-.riga-sdg {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
 html {
   scrollbar-gutter: stable;
 }
@@ -521,15 +519,12 @@ body {
 }
 
 footer {
-  transform: none;
   margin-top: 300px;
   padding: 24px 20px 32px;
   text-align: center;
   box-sizing: border-box;
   width: 100%;
 }
-
-/* Simbolo centrale del pentagono */
 
 /* Simbolo di agricoltura sostenibile al centro del pentagono */
 
@@ -557,11 +552,7 @@ footer {
   object-fit: contain;
 }
 
-/* Sotto-attività: rettangoli arrotondati */
-
-/* Rettangoli delle singole sotto-attività */
-
-/* Rettangoli delle singole sotto-attività */
+/* Stile dei collegamenti delle sotto-attività */
 
 .menu-gruppo a {
   display: flex;
@@ -620,6 +611,7 @@ footer {
   content: "";
   position: absolute;
   left: 100%;
+  right: auto;
   top: 0;
 
   width: 45px;
@@ -649,6 +641,7 @@ footer {
   content: "";
   position: absolute;
   right: 100%;
+  left: auto;
   top: 0;
 
   width: 45px;
@@ -656,6 +649,19 @@ footer {
 
   background: transparent;
   pointer-events: auto;
+}
+
+/* Collegamenti invisibili verso l'interno sugli schermi intermedi */
+@media (min-width: 601px) and (max-width: 1100px) {
+  .gruppo-biodiversita::after {
+    left: auto;
+    right: 100%;
+  }
+
+  .gruppo-comunita::after {
+    right: auto;
+    left: 100%;
+  }
 }
 
 /* Comparsa morbida del menu */
@@ -688,10 +694,6 @@ footer {
 
 /* Animazione quando il menu diventa visibile */
 
-.menu-gruppo {
-  transform-origin: center;
-}
-
 .menu-gruppo a {
   animation: comparsa-attivita 350ms ease-out both;
 }
@@ -720,31 +722,6 @@ footer {
   .menu-gruppo a {
     animation: none;
   }
-}
-
-/* Il menu rimane nel DOM, ma non è interattivo quando è chiuso */
-.pentagono .gruppo-sostenibilita .menu-botanico {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-
-  visibility: hidden;
-  pointer-events: none;
-}
-
-/* Visibile durante apertura e chiusura */
-.pentagono .gruppo-sostenibilita .menu-botanico.botanico-visibile {
-  visibility: visible;
-  pointer-events: auto;
-}
-
-.pentagono .gruppo-sostenibilita .menu-botanico.botanico-chiusura {
-  pointer-events: none;
-}
-
-/* Il JavaScript controlla la visibilità */
-.gruppo-sostenibilita .menu-botanico.botanico-visibile {
-  display: flex;
 }
 
 /* SVG decorativo */
@@ -930,32 +907,6 @@ footer {
   }
 }
 
-/* Visibilità controllata dal JavaScript */
-
-.pentagono .gruppo-sostenibilita .menu-botanico {
-  display: flex;
-  visibility: hidden;
-  pointer-events: none;
-}
-
-.pentagono .gruppo-sostenibilita .menu-botanico.botanico-visibile {
-  visibility: visible;
-  pointer-events: auto;
-}
-
-.pentagono .gruppo-sostenibilita .menu-botanico.botanico-chiusura {
-  visibility: visible;
-  pointer-events: none;
-}
-
-/* Mantiene il menu visibile durante la chiusura */
-
-.pentagono .gruppo-sostenibilita .menu-botanico.botanico-chiusura {
-  display: flex !important;
-  visibility: visible !important;
-  pointer-events: none;
-}
-
 /* Animazioni botaniche gestite da JavaScript */
 
 .pentagono .menu-botanico,
@@ -990,15 +941,9 @@ footer {
    RESPONSIVE SMARTPHONE
    ========================================= */
 
-/* =========================================
-   RESPONSIVE SMARTPHONE
-   ========================================= */
-
 @media (max-width: 600px) {
   .pentagono {
     width: min(65vw, 300px);
-    height: auto;
-    aspect-ratio: 1 / 1;
     margin: 110px auto 60px;
     transform: none;
   }
@@ -1035,7 +980,7 @@ footer {
     max-width: none;
     box-sizing: border-box;
     transform: none;
-    padding: 80px 24px 32px;
+    padding: 100px 44px 40px;
     overflow-y: auto;
     z-index: 2000;
 
@@ -1060,7 +1005,6 @@ footer {
 
   /* Popup a tutto schermo */
   .popup-attivita {
-    position: relative;
     width: 100vw;
     max-width: none;
     height: 100dvh;
@@ -1072,7 +1016,6 @@ footer {
 
   /* Contenuto del popup */
   .contenuto-popup {
-    width: 100%;
     height: 100%;
     max-height: none;
     flex: 1;
@@ -1082,7 +1025,6 @@ footer {
 
   /* Pulsante X sempre visibile */
   .chiudi-popup {
-    position: absolute;
     top: 16px;
     right: 16px;
     z-index: 10;
@@ -1090,7 +1032,7 @@ footer {
 }
 
 /* Pulsante Indietro nascosto su desktop */
-.indietro-botanico {
+.pentagono .menu-botanico .indietro-botanico {
   display: none;
 }
 
@@ -1099,7 +1041,7 @@ footer {
     display: flex;
     align-items: center;
     justify-content: center;
-    align-self: flex-start;
+    align-self: center;
     position: relative;
     top: auto;
     left: auto;
@@ -1107,6 +1049,7 @@ footer {
     width: auto;
     height: auto;
     padding: 12px 18px;
+    margin-left: 0;
     margin-bottom: 24px;
     border: none;
     border-radius: 8px;

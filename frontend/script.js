@@ -50,7 +50,7 @@ function aggiornaAltezzaPopup() {
 
   try {
     const documento = contenutoPopup.contentDocument;
-    if (!documento) return;
+    if (!documento || !documento.body || !documento.documentElement) return;
 
     const altezzaContenuto = Math.max(documento.body.scrollHeight, documento.documentElement.scrollHeight);
 
@@ -66,11 +66,16 @@ function aggiornaAltezzaPopup() {
 }
 
 /* Aggiorna la misura dopo il caricamento */
+
 contenutoPopup.addEventListener("load", function () {
   if (osservatoreContenuto) {
     osservatoreContenuto.disconnect();
     osservatoreContenuto = null;
   }
+
+  // Non osservare l'iframe se il popup è chiuso o in chiusura.
+
+  if (!popupAperto || chiusuraInCorso) return;
 
   aggiornaAltezzaPopup();
 
@@ -99,12 +104,8 @@ collegamentiAttivita.forEach(function (collegamento) {
     /* Memorizza la posizione prima di aprire il popup */
     const rettangoloOrigine = collegamento.getBoundingClientRect();
 
-    /* Mantiene stabili i menu botanici */
+    /* Mantiene aperto il menu botanico dietro al popup */
     document.dispatchEvent(new Event("popup-aperto"));
-
-    /* Nasconde i menu prima di modificare il focus */
-
-    /* Il menu botanico rimane aperto dietro al popup */
 
     contenutoPopup.style.height = "300px";
 
@@ -150,8 +151,12 @@ collegamentiAttivita.forEach(function (collegamento) {
       },
     );
 
-    animazionePopup.finished
+    const animazioneApertura = animazionePopup;
+
+    animazioneApertura.finished
       .then(function () {
+        if (animazionePopup !== animazioneApertura) return;
+
         animazionePopup = null;
         chiudiPopup.focus();
       })
@@ -160,6 +165,7 @@ collegamentiAttivita.forEach(function (collegamento) {
 });
 
 /* Chiusura */
+
 function chiudiScheda() {
   if (!popupAperto || chiusuraInCorso) return;
 
@@ -256,6 +262,11 @@ function isMobile() {
   return mediaMobile.matches;
 }
 
+// Ricarica la pagina soltanto quando cambia modalità desktop/mobile.
+mediaMobile.addEventListener("change", function () {
+  window.location.reload();
+});
+
 gruppiBotanici.forEach((gruppoBotanico) => {
   const menuBotanico = gruppoBotanico.querySelector(".menu-botanico");
 
@@ -271,23 +282,11 @@ gruppiBotanici.forEach((gruppoBotanico) => {
     });
   }
 
-  // Conserva la posizione originale del menu.
-  const posizioneOriginale = document.createComment("Posizione originale menu botanico");
-  menuBotanico.before(posizioneOriginale);
-
   function spostaMenuMobile() {
     if (!isMobile()) return;
 
     if (menuBotanico.parentElement !== document.body) {
       document.body.appendChild(menuBotanico);
-    }
-  }
-
-  function ripristinaMenuDesktop() {
-    if (isMobile()) return;
-
-    if (menuBotanico.parentElement === document.body) {
-      posizioneOriginale.after(menuBotanico);
     }
   }
 
@@ -309,7 +308,6 @@ gruppiBotanici.forEach((gruppoBotanico) => {
     chiudiMenuBotanico();
   });
   let animazioniBotaniche = [];
-  let timerChiusuraBotanica;
   let menuAperto = false;
   let chiusuraMenuAvviata = false;
 
@@ -325,7 +323,6 @@ gruppiBotanici.forEach((gruppoBotanico) => {
           duration: 450,
           easing: "ease-out",
           fill: "both",
-          paused: true,
         },
       ),
     );
@@ -347,7 +344,6 @@ gruppiBotanici.forEach((gruppoBotanico) => {
           delay: ritardo,
           easing: "ease-out",
           fill: "both",
-          paused: true,
         }),
       );
     });
@@ -366,7 +362,6 @@ gruppiBotanici.forEach((gruppoBotanico) => {
           delay: ritardo,
           easing: "ease-out",
           fill: "both",
-          paused: true,
         }),
       );
     });
@@ -375,19 +370,18 @@ gruppiBotanici.forEach((gruppoBotanico) => {
   function apriMenuBotanico() {
     if (popupAperto || chiusuraInCorso) return;
 
-    // Su smartphone porta il menu fuori dal pentagono.
-    if (isMobile()) {
-      spostaMenuMobile();
-    }
     // Un altro menu possiede già il controllo esclusivo.
     if (menuBotanicoAttivo && menuBotanicoAttivo !== gruppoBotanico) {
       return;
     }
 
+    // Su smartphone porta il menu fuori dal pentagono.
+    if (isMobile()) {
+      spostaMenuMobile();
+    }
+
     // Il primo menu acquisisce il controllo.
     menuBotanicoAttivo = gruppoBotanico;
-
-    clearTimeout(timerChiusuraBotanica);
 
     /* Se il menu è già aperto, non riavvia le animazioni */
 
@@ -461,8 +455,6 @@ gruppiBotanici.forEach((gruppoBotanico) => {
 
   /* Mantiene il menu aperto durante il popup */
   document.addEventListener("popup-aperto", function () {
-    clearTimeout(timerChiusuraBotanica);
-
     if (!menuAperto) return;
 
     if (chiusuraMenuAvviata) {
@@ -505,6 +497,13 @@ gruppiBotanici.forEach((gruppoBotanico) => {
     });
   });
 
+  // Desktop: apre il menu quando il mouse entra nel vertice.
+  gruppoBotanico.addEventListener("mouseenter", () => {
+    if (isMobile()) return;
+    apriMenuBotanico();
+  });
+
+  // Desktop: chiude il menu quando il mouse esce dal gruppo.
   gruppoBotanico.addEventListener("mouseleave", () => {
     if (isMobile()) return;
     chiudiMenuBotanico();
@@ -512,7 +511,10 @@ gruppiBotanici.forEach((gruppoBotanico) => {
 
   // Quando un altro menu libera il blocco, verifica se
   // il mouse si trova già nella zona hover di questo menu.
+  // In modalità smartphone l'apertura avviene solo tramite clic.
   document.addEventListener("botanico-libero", function () {
+    if (isMobile()) return;
+
     if (popupAperto || chiusuraInCorso) return;
 
     if (!menuBotanicoAttivo && gruppoBotanico.matches(":hover")) {
@@ -520,15 +522,16 @@ gruppiBotanici.forEach((gruppoBotanico) => {
     }
   });
 
-  gruppoBotanico.addEventListener("focusin", () => {
-    if (isMobile()) return;
-    apriMenuBotanico();
-  });
-
   gruppoBotanico.addEventListener("focusout", (event) => {
     if (isMobile()) return;
     if (popupAperto || chiusuraInCorso) return;
 
+    // Se il mouse è ancora nella zona hover valida,
+    // la perdita del focus non deve chiudere il menu.
+    if (gruppoBotanico.matches(":hover")) return;
+
+    // Chiude soltanto quando il focus esce dal gruppo
+    // e il mouse non si trova nella zona hover.
     if (!gruppoBotanico.contains(event.relatedTarget)) {
       chiudiMenuBotanico();
     }
