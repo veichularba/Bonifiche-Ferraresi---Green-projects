@@ -1,4 +1,93 @@
 console.log("SCRIPT CARICATO");
+
+/* =========================================
+   PARALLASSE DELLO SFONDO - VELOCITÀ 10%
+   ========================================= */
+
+const homepageParallasse = document.querySelector(".homepage");
+const movimentoRidotto = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+if (homepageParallasse) {
+  let aggiornamentoParallasse = false;
+
+  function aggiornaParallasse() {
+    const spostamento = movimentoRidotto.matches ? 0 : Math.min(window.scrollY * 0.6, 200);
+
+    homepageParallasse.style.setProperty("--parallax-offset", `${spostamento}px`);
+
+    aggiornamentoParallasse = false;
+  }
+
+  function richiediAggiornamentoParallasse() {
+    if (aggiornamentoParallasse) return;
+
+    aggiornamentoParallasse = true;
+    requestAnimationFrame(aggiornaParallasse);
+  }
+
+  window.addEventListener("scroll", richiediAggiornamentoParallasse, {
+    passive: true,
+  });
+
+  window.addEventListener("resize", richiediAggiornamentoParallasse);
+  movimentoRidotto.addEventListener("change", richiediAggiornamentoParallasse);
+
+  aggiornaParallasse();
+}
+
+/* =========================================
+   FRECCIA INTELLIGENTE PER IL DOWNLOAD
+   ========================================= */
+
+const frecciaDownload = document.getElementById("freccia-download");
+const pulsanteDownload = document.querySelector(".footer-link");
+
+if (frecciaDownload && pulsanteDownload) {
+  function aggiornaFrecciaDownload() {
+    const rettangoloDownload = pulsanteDownload.getBoundingClientRect();
+
+    const downloadVisibile = rettangoloDownload.top < window.innerHeight && rettangoloDownload.bottom > 0;
+
+    const downloadPiuInBasso = rettangoloDownload.top >= window.innerHeight;
+
+    const popupVisibile = document.querySelector(".overlay-popup.aperto") !== null;
+
+    const menuMobileVisibile =
+      window.matchMedia("(max-width: 600px)").matches &&
+      document.querySelector("body > .menu-botanico.botanico-visibile") !== null;
+
+    frecciaDownload.hidden = downloadVisibile || !downloadPiuInBasso || popupVisibile || menuMobileVisibile;
+  }
+
+  /* Aggiorna la freccia durante lo scorrimento */
+  window.addEventListener("scroll", aggiornaFrecciaDownload, {
+    passive: true,
+  });
+
+  /* Aggiorna la freccia quando cambia la dimensione della finestra */
+  window.addEventListener("resize", aggiornaFrecciaDownload);
+
+  /* Rileva apertura e chiusura di popup e menu botanici */
+  const osservatoreFreccia = new MutationObserver(aggiornaFrecciaDownload);
+
+  osservatoreFreccia.observe(document.body, {
+    subtree: true,
+    attributes: true,
+    attributeFilter: ["class"],
+  });
+
+  /* Clic sulla freccia: raggiunge il pulsante PDF */
+  frecciaDownload.addEventListener("click", function () {
+    pulsanteDownload.scrollIntoView({
+      behavior: movimentoRidotto.matches ? "instant" : "smooth",
+      block: "center",
+    });
+  });
+
+  /* Controllo iniziale */
+  aggiornaFrecciaDownload();
+}
+
 /* Gestione dell'apertura dei dettagli delle attività */
 
 const pulsantiAttivita = document.querySelectorAll(".btn-attivita");

@@ -53,8 +53,9 @@ button {
     linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url("images/Irrigatore Pivot tra i Campi Verdi.png");
 
   background-size: cover;
-  background-position: center;
+  background-position: center calc(50% + var(--parallax-offset, 0px));
   background-repeat: no-repeat;
+  background-attachment: scroll;
   min-height: 100vh;
 }
 
@@ -519,11 +520,224 @@ body {
 }
 
 footer {
-  margin-top: 300px;
-  padding: 24px 20px 32px;
+  margin-top: 150px;
+  margin-bottom: 60px;
+  padding: 32px 20px;
   text-align: center;
   box-sizing: border-box;
   width: 100%;
+}
+
+/* Distanza responsive tra pentagono e footer su desktop */
+@media (min-width: 601px) {
+  footer {
+    margin-top: clamp(150px, 16vh, 180px);
+  }
+}
+
+/* Footer della homepage */
+.footer-sostenibilita {
+  background-color: #24452b;
+  color: #ffffff;
+  position: relative;
+}
+
+/* Logo BF a destra del footer */
+.footer-logo {
+  position: absolute;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 180px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Logo centrato sotto il pulsante PDF su schermi piccoli e intermedi */
+@media (max-width: 1100px) {
+  .footer-logo {
+    position: static;
+    display: block;
+    width: 150px;
+    max-width: 100%;
+    margin: 24px auto 0;
+    transform: none;
+  }
+}
+
+/* Contenuto centrale */
+.footer-contenuto {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Titolo */
+.footer-contenuto h2 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+/* Sottotitolo */
+.footer-contenuto p {
+  margin: 0;
+  color: #d5e5d6;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Separatore */
+.footer-separatore {
+  width: 100%;
+  height: 1px;
+  background-color: #607b65;
+}
+
+/* Pulsante per scaricare il PDF */
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  max-width: 100%;
+  padding: 14px 22px;
+  box-sizing: border-box;
+
+  background-color: #f4efdf;
+  color: #24452b;
+
+  border: 1px solid #e3d3ba;
+  border-radius: 10px;
+
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: center;
+  text-decoration: none;
+
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+
+  transition:
+    background-color 200ms ease,
+    transform 200ms ease,
+    box-shadow 200ms ease;
+}
+
+/* Icona PDF */
+.footer-link svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* Effetto al passaggio del mouse */
+.footer-link:hover {
+  background-color: #ffffff;
+  color: #24452b;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.25);
+}
+
+/* Navigazione tramite tastiera */
+.footer-link:focus-visible {
+  outline: 3px solid #d5e5d6;
+  outline-offset: 4px;
+}
+
+/* Freccia per raggiungere il download */
+.freccia-download {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 54px;
+  height: 54px;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: rgba(36, 69, 43, 0.85);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+
+  cursor: pointer;
+  z-index: 50;
+
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+
+/* Il pulsante rimane nascosto finché JavaScript non lo attiva */
+.freccia-download[hidden] {
+  display: none;
+}
+
+/* Dimensioni dell'icona */
+.freccia-download svg {
+  width: 28px;
+  height: 28px;
+  animation: movimento-freccia 1.8s ease-in-out infinite;
+}
+
+/* Animazione verticale */
+@keyframes movimento-freccia {
+  0%,
+  100% {
+    transform: translateY(-3px);
+  }
+
+  50% {
+    transform: translateY(4px);
+  }
+}
+
+/* Effetto al passaggio del mouse */
+.freccia-download:hover {
+  background-color: #2e6b3e;
+}
+
+/* Navigazione tramite tastiera */
+.freccia-download:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 4px;
+}
+
+/* Rispetto delle preferenze di accessibilità */
+@media (prefers-reduced-motion: reduce) {
+  .freccia-download svg {
+    animation: none;
+  }
+}
+
+/* Adattamento agli smartphone */
+@media (max-width: 600px) {
+  .footer-sostenibilita {
+    padding: 28px 16px;
+  }
+
+  .footer-contenuto h2 {
+    font-size: 22px;
+  }
+
+  .footer-contenuto p {
+    font-size: 13px;
+  }
+
+  .footer-link {
+    width: 100%;
+    padding: 14px 12px;
+    font-size: 13px;
+  }
 }
 
 /* Simbolo di agricoltura sostenibile al centro del pentagono */
